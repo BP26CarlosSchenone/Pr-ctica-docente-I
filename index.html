@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos del Diseño - Biblioteca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, #f0f0f0, #ffffff);
+            min-height: 100vh;
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .slide {
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Slide 1 - Portada */
+        .slide-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide-1::before {
+            content: "";
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
+            animation: morph 8s ease-in-out infinite;
+        }
+        
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                border-radius: 60% 40% 30% 70% / 40% 50% 60% 50%;
+                transform: rotate(180deg) scale(1.1);
+            }
+        }
+        
+        .slide-1 > div {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .slide-1 h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+            line-height: 1.2;
+        }
+        
+        .slide-1 .biblioteca-name {
+            font-size: 1em;
+            margin-bottom: 35px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            opacity: 0.9;
+        }
+        
+        .slide-1 .biblioteca-name::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, white, transparent);
+        }
+        
+        .slide-1 h2 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        .slide-1 p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+        
+        .slide-1 .btn {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide-1 .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .slide-1 .btn:hover::before {
+            left: 100%;
+        }
+        
+        .slide-1 .btn:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        .slide-1 .swipe-hint {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Slide 2 - Wong */
+        .slide-2 {
+            background: linear-gradient(135deg, #FEE140 0%, #FA709A 100%);
+        }
+        
+        .slide-2 h2 {
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .book-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+        
+        .book-card h3 {
+            font-size: 2em;
+            color: #FA709A;
+            margin-bottom: 10px;
+        }
+        
+        .book-card .author {
+            color: #666;
+            font-size: 1.3em;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .book-card p {
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        
+        .topics-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .topics-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .topics-list li::before {
+            content: "▪";
+            color: #FA709A;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        /* Slide 3 - Munari */
+        .slide-3 {
+            background: linear-gradient(135deg, #A8EDEA 0%, #FED6E3 100%);
+        }
+        
+        .slide-3 h2 {
+            font-size: 2.5em;
+            color: #19547B;
+            margin-bottom: 30px;
+        }
+        
+        .slide-3 .book-card {
+            border-left: 5px solid #19547B;
+        }
+        
+        .slide-3 .book-card h3 {
+            color: #19547B;
+        }
+        
+        .slide-3 .topics-list li::before {
+            color: #19547B;
+        }
+        
+        .highlight-box {
+            background: rgba(255,255,255,0.6);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #19547B;
+        }
+        
+        .highlight-box strong {
+            color: #19547B;
+            font-size: 1.1em;
+        }
+        
+        /* Slide 4 - Scott */
+        .slide-4 {
+            background: linear-gradient(135deg, #FFD89B 0%, #FF6B9D 100%);
+        }
+        
+        .slide-4 h2 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .slide-4 .book-card {
+            border-left: 5px solid #FF6B9D;
+        }
+        
+        .slide-4 .book-card h3 {
+            color: #FF6B9D;
+        }
+        
+        .slide-4 .topics-list li::before {
+            color: #FF6B9D;
+        }
+        
+        .slide-4 .highlight-box {
+            border-left-color: #FF6B9D;
+        }
+        
+        .slide-4 .highlight-box strong {
+            color: #FF6B9D;
+        }
+        
+        /* Slide 5 - Ubicación */
+        .slide-5 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .slide-5 h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        
+        .location-info {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .location-info h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+        
+        .location-info p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        /* Botones */
+        .btn {
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Navegación */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+        
+        .swipe-hint {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-top: 20px;
+            font-size: 0.9em;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Slide 1: Portada -->
+        <div class="slide slide-1 active">
+            <div>
+                <p class="biblioteca-name">Biblioteca Especializada BP N26<br>"Carlos H. Schenone"</p>
+                <h1>🎨 FUNDAMENTOS DEL DISEÑO</h1>
+                <h2>Tres obras esenciales para comprender los principios del diseño visual</h2>
+                <p>Descubre los libros clásicos que todo diseñador debe conocer</p>
+                <button class="btn" onclick="nextSlide()">EXPLORAR COLECCIÓN 📚</button>
+                <div class="swipe-hint">Desliza o toca para continuar →</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Wucius Wong -->
+        <div class="slide slide-2">
+            <div>
+                <h2>📖 LIBRO 1</h2>
+                
+                <div class="book-card">
+                    <h3>Fundamentos del diseño</h3>
+                    <p class="author">✍️ Wucius Wong</p>
+                    <p>Un enfoque sistemático y riguroso sobre los elementos y principios básicos del diseño bidimensional.</p>
+                    
+                    <ul class="topics-list">
+                        <li>Elementos conceptuales, visuales y de relación</li>
+                        <li>La forma y su estructura</li>
+                        <li>Repetición, gradación y radiación</li>
+                        <li>Anomalía, contraste y concentración</li>
+                        <li>Textura y espacio</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p><strong>💡 Ideal para:</strong> Estudiantes y profesionales que buscan un método estructurado para entender la composición visual.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="navigation">
+                    <div class="nav-dot" onclick="goToSlide(0)"></div>
+                    <div class="nav-dot active"></div>
+                    <div class="nav-dot" onclick="goToSlide(2)"></div>
+                    <div class="nav-dot" onclick="goToSlide(3)"></div>
+                    <div class="nav-dot" onclick="goToSlide(4)"></div>
+                </div>
+                <button class="btn" onclick="nextSlide()">SIGUIENTE →</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: Bruno Munari -->
+        <div class="slide slide-3">
+            <div>
+                <h2>📖 LIBRO 2</h2>
+                
+                <div class="book-card">
+                    <h3>Diseño y comunicación visual</h3>
+                    <p class="author">✍️ Bruno Munari</p>
+                    <p>Una obra fundamental que explora la relación entre diseño, arte y comunicación desde una perspectiva práctica y conceptual.</p>
+                    
+                    <ul class="topics-list">
+                        <li>Comunicación visual y diseño gráfico</li>
+                        <li>Mensajes visuales y su percepción</li>
+                        <li>Estructuras visuales y composición</li>
+                        <li>La creatividad en el proceso de diseño</li>
+                        <li>Color, forma y técnicas proyectuales</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p><strong>💡 Ideal para:</strong> Diseñadores que buscan comprender la dimensión comunicativa del diseño y desarrollar un pensamiento creativo lógico.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="navigation">
+                    <div class="nav-dot" onclick="goToSlide(0)"></div>
+                    <div class="nav-dot" onclick="goToSlide(1)"></div>
+                    <div class="nav-dot active"></div>
+                    <div class="nav-dot" onclick="goToSlide(3)"></div>
+                    <div class="nav-dot" onclick="goToSlide(4)"></div>
+                </div>
+                <button class="btn" onclick="nextSlide()">SIGUIENTE →</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: Robert Gillam Scott -->
+        <div class="slide slide-4">
+            <div>
+                <h2>📖 LIBRO 3</h2>
+                
+                <div class="book-card">
+                    <h3>Fundamentos del diseño</h3>
+                    <p class="author">✍️ Robert Gillam Scott</p>
+                    <p>Un clásico que aborda los principios universales del diseño desde una perspectiva histórica y teórica, conectando arte y diseño.</p>
+                    
+                    <ul class="topics-list">
+                        <li>Principios básicos de la forma</li>
+                        <li>El equilibrio y la proporción</li>
+                        <li>Ritmo, armonía y unidad</li>
+                        <li>Teoría del color aplicada</li>
+                        <li>Diseño en dos y tres dimensiones</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p><strong>💡 Ideal para:</strong> Quienes buscan una base teórica sólida que une los principios del diseño con la historia del arte y la estética.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="navigation">
+                    <div class="nav-dot" onclick="goToSlide(0)"></div>
+                    <div class="nav-dot" onclick="goToSlide(1)"></div>
+                    <div class="nav-dot" onclick="goToSlide(2)"></div>
+                    <div class="nav-dot active"></div>
+                    <div class="nav-dot" onclick="goToSlide(4)"></div>
+                </div>
+                <button class="btn" onclick="nextSlide()">VER UBICACIÓN →</button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Ubicación -->
+        <div class="slide slide-5">
+            <div>
+                <h2>📍 ENCONTRALOS EN LA BIBLIOTECA</h2>
+                
+                <div class="location-info">
+                    <h3>📚 Fundamentos del diseño</h3>
+                    <p>🔖 Sección: Fundamentos del Diseño</p>
+                    <p>📚 Clasificación: [Tu código]</p>
+                    <p>🏛️ Estante: [Ubicación específica]</p>
+                </div>
+                
+                <div class="location-info">
+                    <h3>📚 Diseño y comunicación visual</h3>
+                    <p>🔖 Sección: Fundamentos del Diseño</p>
+                    <p>📚 Clasificación: [Tu código]</p>
+                    <p>🏛️ Estante: [Ubicación específica]</p>
+                </div>
+                
+                <div class="location-info">
+                    <h3>📚 Fundamentos del diseño</h3>
+                    <p>🔖 Sección: Fundamentos del Diseño</p>
+                    <p>📚 Clasificación: [Tu código]</p>
+                    <p>🏛️ Estante: [Ubicación específica]</p>
+                </div>
+            </div>
+            
+            <div>
+                <div class="navigation">
+                    <div class="nav-dot" onclick="goToSlide(0)"></div>
+                    <div class="nav-dot" onclick="goToSlide(1)"></div>
+                    <div class="nav-dot" onclick="goToSlide(2)"></div>
+                    <div class="nav-dot" onclick="goToSlide(3)"></div>
+                    <div class="nav-dot active"></div>
+                </div>
+                <button class="btn" onclick="goToSlide(0)">VOLVER AL INICIO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            updateNavigation();
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        function updateNavigation() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
